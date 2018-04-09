@@ -2,6 +2,7 @@ function RQM() {
 	let RQMRoot = null;
 	let quoteContainer = null;
 	let nextQuoteBtn = null;
+	let tweetQuoteBtn = null;
 	const offlineQuotes = ['Hello World', 'Olá Mundo', 'Hallo Welt'];
 
 	this.initializeRQM = () => {
@@ -22,6 +23,14 @@ function RQM() {
 		nextQuoteBtn.className = "button success expanded";
 		nextQuoteBtn.innerText = "Button";
 		RQMRoot.appendChild(nextQuoteBtn);
+	};
+	
+	this.setupTweetQuoteBtn = () => {
+		
+	};
+	
+	this.setNewQuote = () => {
+		
 	};
 	
 	this.getRandomOfflineQuote = () => {
