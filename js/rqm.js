@@ -5,13 +5,18 @@ function RQM() {
 
 	this.initializeRQM = () => {
 		RQMRoot = document.querySelector('#rqm-root');
-		this.setupQuoteContainer();
+		this.setupQuoteContainer(
+			function containerDiv() {
+				let container = document.createElement("div");
+				container.className = "continaer callout";
+				container.innerHTML = "<p>hello world</p>";
+				RQMRoot.appendChild(conatiner);
+			}
+		);
 		this.setupNextQuoteBtn();
 	};
 	
-	this.setupQuoteContainer = () => {
-		
-	};
+	this.setupQuoteContainer = () => {};
 	
 	this.setupNextQuoteBtn = () => {
 		
