@@ -2,6 +2,7 @@ function RQM() {
 	var RQMRoot = null;
 	var quoteContainer = null;
 	var nextQuoteBtn = null;
+	var offlineQuotes = ['Hello World', 'Olá Mundo', 'Hallo Welt'];
 
 	this.initializeRQM = () => {
 		RQMRoot = document.querySelector('#rqm-root');
@@ -12,7 +13,7 @@ function RQM() {
 	this.setupQuoteContainer = () => {
 		let container = document.createElement("div");
 		container.className = "cell callout";
-		container.innerHTML = "<p>hello world</p>";
+		container.innerHTML = `<p>${this.getRandomOfflineQuote()}</p>`;
 		RQMRoot.appendChild(container);
 	};
 	
@@ -20,6 +21,10 @@ function RQM() {
 		
 	};
 	
+	this.getRandomOfflineQuote = () => {
+		return offlineQuotes[Math.floor(Math.random() * offlineQuotes.length)];
+	};
+
 }
 
 const RQMInstance = new RQM();
