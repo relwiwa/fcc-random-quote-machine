@@ -18,7 +18,10 @@ function RQM() {
 	};
 	
 	this.setupNextQuoteBtn = () => {
-		
+	let nextQuoteBtn = document.createElement("div");	
+	nextQuoteBtn.className = "button success expanded";
+	nextQuoteBtn.innerText = "Button";
+	RQMRoot.appendChild(nextQuoteBtn);
 	};
 	
 	this.getRandomOfflineQuote = () => {
