@@ -9,8 +9,6 @@ function RQM() {
 	this.initializeRQM = () => {
 		RQMRoot = document.querySelector('#rqm-root');
 		this.setupQuoteContainer();
-		this.setupNextQuoteBtn();
-		this.setupTweetQuoteBtn();
 		this.setupBtnsContainer();
 	};
 	
@@ -23,23 +21,19 @@ function RQM() {
 
 	this.setupBtnsContainer = () => {
 		btnsContainer = document.createElement("div");
-		btnsContainer.className = "cell callout";
-		btnsContainer.id = "btnContainer";
-		btnsContainer.innerHTML = nextQuoteBtn.outerHTML + tweetQuoteBtn.outerHTML;
+		btnsContainer.className = "cell button-group expanded stacked-for-small";
+		nextQuoteBtn = this.createButton("warning large", "New Quote");
+		tweetQuoteBtn = this.createButton("primary large", "Tweet Quote");
+		btnsContainer.appendChild(tweetQuoteBtn);
+		btnsContainer.appendChild(nextQuoteBtn);
 		RQMRoot.appendChild(btnsContainer);
 	}
 	
-	this.setupNextQuoteBtn = () => {
-		nextQuoteBtn = document.createElement("button");	
-		nextQuoteBtn.className = "button large primary";
-		nextQuoteBtn.type = "button";
-		nextQuoteBtn.innerText = "Next Quote";
-	};
-	
-	this.setupTweetQuoteBtn = () => {
-		tweetQuoteBtn = document.createElement("button");
-		tweetQuoteBtn.className = "button large primary";
-		tweetQuoteBtn.innerText = "Tweet Quote";
+	this.createButton = (btnClasses, btnText) => {
+		const newBtn = document.createElement("a");
+		newBtn.className = `button ${btnClasses}`;
+		newBtn.innerText = btnText;
+		return newBtn;
 	};
 	
 	this.setNewQuote = () => {
