@@ -1,0 +1,9 @@
+#btnContainer {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+}
+
+#btnContainer button {
+	margin-bottom: 0;
+}

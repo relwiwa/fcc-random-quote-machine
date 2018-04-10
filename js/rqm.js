@@ -3,12 +3,15 @@ function RQM() {
 	let quoteContainer = null;
 	let nextQuoteBtn = null;
 	let tweetQuoteBtn = null;
+	let btnsContainer = null;
 	const offlineQuotes = ['Hello World', 'Olá Mundo', 'Hallo Welt'];
 
 	this.initializeRQM = () => {
 		RQMRoot = document.querySelector('#rqm-root');
 		this.setupQuoteContainer();
 		this.setupNextQuoteBtn();
+		this.setupTweetQuoteBtn();
+		this.setupBtnsContainer();
 	};
 	
 	this.setupQuoteContainer = () => {
@@ -17,16 +20,26 @@ function RQM() {
 		quoteContainer.innerHTML = `<p>${this.getRandomOfflineQuote()}</p>`;
 		RQMRoot.appendChild(quoteContainer);
 	};
+
+	this.setupBtnsContainer = () => {
+		btnsContainer = document.createElement("div");
+		btnsContainer.className = "cell callout";
+		btnsContainer.id = "btnContainer";
+		btnsContainer.innerHTML = nextQuoteBtn.outerHTML + tweetQuoteBtn.outerHTML;
+		RQMRoot.appendChild(btnsContainer);
+	}
 	
 	this.setupNextQuoteBtn = () => {
-		nextQuoteBtn = document.createElement("div");	
-		nextQuoteBtn.className = "button success expanded";
-		nextQuoteBtn.innerText = "Button";
-		RQMRoot.appendChild(nextQuoteBtn);
+		nextQuoteBtn = document.createElement("button");	
+		nextQuoteBtn.className = "button large primary";
+		nextQuoteBtn.type = "button";
+		nextQuoteBtn.innerText = "Next Quote";
 	};
 	
 	this.setupTweetQuoteBtn = () => {
-		
+		tweetQuoteBtn = document.createElement("button");
+		tweetQuoteBtn.className = "button large primary";
+		tweetQuoteBtn.innerText = "Tweet Quote";
 	};
 	
 	this.setNewQuote = () => {
