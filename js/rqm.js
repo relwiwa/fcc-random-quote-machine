@@ -10,6 +10,7 @@ function RQM() {
 		RQMRoot = document.querySelector('#rqm-root');
 		this.setupQuoteContainer();
 		this.setupBtnsContainer();
+		this.setNewQuote();
 	};
 	
 	this.setupQuoteContainer = () => {
@@ -37,7 +38,9 @@ function RQM() {
 	};
 	
 	this.setNewQuote = () => {
-		
+		document.querySelector(".button.warning.large").addEventListener("click", function() {
+			quoteContainer.innerHTML = offlineQuotes[Math.floor(Math.random() * offlineQuotes.length)];
+		});
 	};
 	
 	this.getRandomOfflineQuote = () => {
