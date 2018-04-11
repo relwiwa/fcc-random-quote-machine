@@ -32,7 +32,7 @@ function RQM() {
 	}
 		
 	this.setNewQuote = () => {
-		document.querySelector(".button.warning.large").addEventListener("click", function() {
+		nextQuoteBtn.addEventListener("click", function() {
 			quoteContainer.innerHTML = H.getRandomElement(offlineQuotes);
 		});
 	};
