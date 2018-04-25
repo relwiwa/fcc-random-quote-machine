@@ -32,7 +32,7 @@ function RQM() {
 	}
 		
 	this.setNewQuote = () => {
-		nextQuoteBtn.addEventListener("click", function() {
+		H.generalAddEventListener("click", nextQuoteBtn, () => {
 			quoteContainer.innerHTML = H.getRandomElement(offlineQuotes);
 		});
 	};
@@ -53,7 +53,11 @@ function Helper() {
 		newBtn.className = `button ${btnClasses}`;
 		newBtn.innerText = btnText;
 		return newBtn;
-	};	
+	};
+
+	this.generalAddEventListener = (eventType, element, callback) => {
+		element.addEventListener(eventType, callback);
+	}
 }
 
 const RQMInstance = new RQM();
