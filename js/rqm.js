@@ -46,11 +46,15 @@ function RQM() {
 	};
 	
 	this.setRandomOnlineQuote = () => {
-		const quoteNumber = Math.floor(Math.random() * 1900) + 50;
-		const callback = 'RQMInstance.handleNewOnlineQuote';
-		const apiUrl = `https://quotesondesign.com/wp-json/posts/${quoteNumber}?filter[orderby]=rand&_jsonp=${callback}`;
-		H.makeJsonpRequest(apiUrl, this.setRandomOnlineQuote);
-	}
+		const apiUrl = `https://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1&preventCache=${Date.now()}`;
+		axios.get(apiUrl)
+		.then(response => {
+			this.handleNewOnlineQuote(response.data[0]);
+		})
+		.catch(error => {
+			this.setRandomOfflineQuote();
+		});
+	};
 }
 
 function Helper() {
@@ -68,7 +72,7 @@ function Helper() {
 	this.generalAddEventListener = (eventType, element, callback) => {
 		element.addEventListener(eventType, callback);
 	}
-	
+		
 	this.makeJsonpRequest = (url, errorCallback) => {
 		const oldScriptTag = document.querySelector('head script'); 
 		const newScriptTag = document.createElement('script');
