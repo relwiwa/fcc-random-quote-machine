@@ -32,6 +32,10 @@ function RQM() {
 		btnsContainer.appendChild(nextQuoteBtn);
 		RQMRoot.appendChild(btnsContainer);
 	}
+	
+	this.handleNewOnlineQuote = (newQuote) => {
+		this.setNewQuote(newQuote.content);
+	};
 			
 	this.setNewQuote = (newQuote) => {
 		quoteContainer.innerHTML = `<p>${newQuote}</p>`;		
@@ -42,7 +46,10 @@ function RQM() {
 	};
 	
 	this.setRandomOnlineQuote = () => {
-		this.setNewQuote(H.getRandomElement(offlineQuotes));		
+		const quoteNumber = Math.floor(Math.random() * 1900) + 50;
+		const callback = 'RQMInstance.handleNewOnlineQuote';
+		const apiUrl = `https://quotesondesign.com/wp-json/posts/${quoteNumber}?filter[orderby]=rand&_jsonp=${callback}`;
+		H.makeJsonpRequest(apiUrl, this.setRandomOnlineQuote);
 	}
 }
 
@@ -61,6 +68,19 @@ function Helper() {
 	this.generalAddEventListener = (eventType, element, callback) => {
 		element.addEventListener(eventType, callback);
 	}
+	
+	this.makeJsonpRequest = (url, errorCallback) => {
+		const oldScriptTag = document.querySelector('head script'); 
+		const newScriptTag = document.createElement('script');
+		newScriptTag.src = url;
+		if (oldScriptTag !== null) {			
+			document.querySelector('head').removeChild(oldScriptTag);
+		}
+		document.querySelector('head').appendChild(newScriptTag);
+		newScriptTag.addEventListener('error', error => {
+			errorCallback();
+		});	
+	};
 }
 
 const RQMInstance = new RQM();
