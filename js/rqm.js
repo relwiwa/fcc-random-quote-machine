@@ -11,13 +11,12 @@ function RQM() {
 		RQMRoot = document.querySelector('#rqm-root');
 		this.setupQuoteContainer();
 		this.setupBtnsContainer();
-		this.setNewQuote();
 	};
 	
 	this.setupQuoteContainer = () => {
 		quoteContainer = document.createElement("div");
 		quoteContainer.className = "cell callout";
-		quoteContainer.innerHTML = `<p>${this.getRandomOfflineQuote()}</p>`;
+		this.setRandomOfflineQuote();
 		RQMRoot.appendChild(quoteContainer);
 	};
 
@@ -25,22 +24,26 @@ function RQM() {
 		btnsContainer = document.createElement("div");
 		btnsContainer.className = "cell button-group expanded stacked-for-small";
 		nextQuoteBtn = H.createButton("warning large", "New Quote");
+		H.generalAddEventListener("click", nextQuoteBtn, () => {
+			this.setRandomOnlineQuote();
+		});
 		tweetQuoteBtn = H.createButton("primary large", "Tweet Quote");
 		btnsContainer.appendChild(tweetQuoteBtn);
 		btnsContainer.appendChild(nextQuoteBtn);
 		RQMRoot.appendChild(btnsContainer);
 	}
-		
-	this.setNewQuote = () => {
-		H.generalAddEventListener("click", nextQuoteBtn, () => {
-			quoteContainer.innerHTML = H.getRandomElement(offlineQuotes);
-		});
+			
+	this.setNewQuote = (newQuote) => {
+		quoteContainer.innerHTML = `<p>${newQuote}</p>`;		
 	};
 	
-	this.getRandomOfflineQuote = () => {
-		return H.getRandomElement(offlineQuotes);
+	this.setRandomOfflineQuote = () => {
+		this.setNewQuote(H.getRandomElement(offlineQuotes));
 	};
-
+	
+	this.setRandomOnlineQuote = () => {
+		this.setNewQuote(H.getRandomElement(offlineQuotes));		
+	}
 }
 
 function Helper() {
