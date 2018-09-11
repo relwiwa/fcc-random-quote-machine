@@ -13,26 +13,6 @@ function RQM() {
 		this.setupBtnsContainer();
 	};
 	
-	this.setupQuoteContainer = () => {
-		quoteContainer = document.createElement("div");
-		quoteContainer.className = "cell callout";
-		this.setRandomOfflineQuote();
-		RQMRoot.appendChild(quoteContainer);
-	};
-
-	this.setupBtnsContainer = () => {
-		btnsContainer = document.createElement("div");
-		btnsContainer.className = "cell button-group expanded stacked-for-small";
-		nextQuoteBtn = H.createButton("warning large", "New Quote");
-		H.generalAddEventListener("click", nextQuoteBtn, () => {
-			this.setRandomOnlineQuote();
-		});
-		tweetQuoteBtn = H.createButton("primary large", "Tweet Quote");
-		btnsContainer.appendChild(tweetQuoteBtn);
-		btnsContainer.appendChild(nextQuoteBtn);
-		RQMRoot.appendChild(btnsContainer);
-	}
-	
 	this.handleNewOnlineQuote = (newQuote) => {
 		this.setNewQuote(newQuote.content);
 	};
@@ -54,6 +34,26 @@ function RQM() {
 		.catch(error => {
 			this.setRandomOfflineQuote();
 		});
+	}
+
+	this.setupQuoteContainer = () => {
+		quoteContainer = document.createElement("div");
+		quoteContainer.classname = "cell callout";
+		this.setRandomOfflineQuote();
+		RQMRoot.appendChild(quoteContainer);
+	};
+
+	this.setupBtnsContainer = () => {
+		btnsContainer = document.createElement("div");
+		btnsContainer.className = "cell button-group expanded stacked-for-small";
+		nextQuoteBtn = H.createButton("warning large", "new quote");
+		H.generalAddEventListener("click", nextQuoteBtn, () => {
+			this.setRandomOnlineQuote();
+		});
+		tweetQuoteBtn = H.createButton("primary large", "Tweet Quote");
+		btnsContainer.appendChild(tweetQuoteBtn);
+		btnsContainer.appendChild(nextQuoteBtn);
+		RQMRoot.appendChild(btnsContainer);
 	};
 }
 
