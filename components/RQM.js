@@ -2,6 +2,8 @@ import React from 'react';
 
 import IconButton from '../../../reusable-components/icon-button';
 
+import './RQM.scss';
+
 const RQM = (props) => <div className="rqm grid-container">
   <div className="grid-x grid-padding align-center">
     <h1 className="cell text-center">Random Quote Machine</h1>
