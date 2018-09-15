@@ -2,7 +2,7 @@ import Quote from '../models/Quote';
 
 const offlineQuotes = [
   new Quote(
-    '"Oscar Wilde',
+    'Oscar Wilde',
     'To expect the unexpected shows a thoroughly modern intellect.',
   ),
   new Quote(

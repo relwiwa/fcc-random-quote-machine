@@ -1,10 +1,8 @@
-import { mount, shallow } from 'enzyme';
+import { shallow } from 'enzyme';
 import React from 'react';
-import sinon from 'sinon';
 
 import offlineQuotes from '../data/offlineQuotes';
 import RQM from './RQM';
-import { notDeepEqual } from 'assert';
 
 describe('<RQM>', () => {
   
@@ -37,6 +35,12 @@ describe('<RQM>', () => {
     describe('concerning state setup and usage', () => {
       it('sets quote to one of the quotes from the OfflineQuotes array', () => {
         expect(offlineQuotes).toContainEqual(expect.objectContaining(wrapper.state().quote));
+      });
+      it('sets up RQM.offlineQuotesAvailable', () => {
+        expect(wrapper.instance().offlineQuotesAvailable).toBeDefined();
+      });
+      it('removes quote that was used for state from offlineQuotesAvailable', () => {
+        expect(wrapper.instance().offlineQuotesAvailable.length).toBe(offlineQuotes.length - 1);
       });
       it('sets quoteText from state into .quote-text', () => {
         expect(wrapper.find('.quote-text').props().dangerouslySetInnerHTML.__html).toEqual(wrapper.state().quote.quoteText);

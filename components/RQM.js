@@ -11,14 +11,21 @@ import offlineQuotes from '../data/offlineQuotes';
 class RQM extends Component {
   constructor(props) {
     super(props);
-    const quote = offlineQuotes[Math.floor(Math.random() * offlineQuotes.length)];
+    this.offlineQuotesAvailable = [...offlineQuotes];
+    this.offlineQuotesUsed = [];
+    const quote = this.getRandomOfflineQuote();
     this.state = {
       quote,
       quotePhase: 'quote-appear',
     };
     this.createMarkup = this.createMarkup.bind(this);
     this.getNewQuoteFromApi = this.getNewQuoteFromApi.bind(this);
+    this.getRandomOfflineQuote = this.getRandomOfflineQuote.bind(this);
     this.handleNewQuote = this.handleNewQuote.bind(this);
+  }
+  
+  createMarkup(text) {
+    return { __html: text.replace(/<\/?[a-zA-Z0-9]+>/g, '') };
   }
 
   handleNewQuote() {
@@ -46,9 +53,17 @@ class RQM extends Component {
     return axios.get(`https://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1&preventCache=${Date.now()}`);
   }
 
-  createMarkup(text) {
-    return { __html: text.replace(/<\/?[a-zA-Z0-9]+>/g, '') };
+  getRandomOfflineQuote() {
+    if (this.offlineQuotesAvailable.length === 0) {
+      this.offlineQuotesAvailable = [...offlineQuotes];
+    }
+    const quoteIndex = Math.floor(Math.random() * this.offlineQuotesAvailable.length);
+    const quote = this.offlineQuotesAvailable[quoteIndex];
+    this.offlineQuotesAvailable = [...this.offlineQuotesAvailable];
+    this.offlineQuotesAvailable.splice(quoteIndex, 1);
+    return quote;
   }
+
 
   render() {
     const { quote, quotePhase } = this.state;
