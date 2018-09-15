@@ -56,7 +56,10 @@ class RQM extends Component {
         return response.data;
       },
       error => {
-        console.log(error);
+        this.setState({
+          quote: this.getRandomOfflineQuote(),
+          quotePhase: 'appear',
+        });
       }
     );
   }
@@ -98,7 +101,6 @@ class RQM extends Component {
             faIcon={['fab', 'twitter']}
             foundationClass="primary"
             link={`${twitterApiUrl}${quoteTextWithoutTags}`}
-            target="new"
             text="Tweet Quote"
           />
         </div>
