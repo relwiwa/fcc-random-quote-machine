@@ -6,6 +6,7 @@ import IconLink from '../../../reusable-components/icon-link';
 
 import './RQM.scss';
 
+import { quotesApiUrl, twitterApiUrl } from '../data/applicationData';
 import offlineQuotes from '../data/offlineQuotes';
 
 class RQM extends Component {
@@ -18,14 +19,25 @@ class RQM extends Component {
       quote,
       quotePhase: 'quote-appear',
     };
-    this.createMarkup = this.createMarkup.bind(this);
     this.getNewQuoteFromApi = this.getNewQuoteFromApi.bind(this);
     this.getRandomOfflineQuote = this.getRandomOfflineQuote.bind(this);
     this.handleNewQuote = this.handleNewQuote.bind(this);
+    this.removeTags = this.removeTags.bind(this);
   }
   
-  createMarkup(text) {
-    return { __html: text.replace(/<\/?[a-zA-Z0-9]+>/g, '') };
+  getNewQuoteFromApi() {
+    return axios.get(`${quotesApiUrl}${Date.now()}`);
+  }
+  
+  getRandomOfflineQuote() {
+    if (this.offlineQuotesAvailable.length === 0) {
+      this.offlineQuotesAvailable = [...offlineQuotes];
+    }
+    const quoteIndex = Math.floor(Math.random() * this.offlineQuotesAvailable.length);
+    const quote = this.offlineQuotesAvailable[quoteIndex];
+    this.offlineQuotesAvailable = [...this.offlineQuotesAvailable];
+    this.offlineQuotesAvailable.splice(quoteIndex, 1);
+    return quote;
   }
 
   handleNewQuote() {
@@ -49,53 +61,45 @@ class RQM extends Component {
     );
   }
 
-  getNewQuoteFromApi() {
-    return axios.get(`https://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1&preventCache=${Date.now()}`);
+  removeTags(text) {
+    return text.replace(/<\/?[a-zA-Z0-9]+>/g, '');
   }
-
-  getRandomOfflineQuote() {
-    if (this.offlineQuotesAvailable.length === 0) {
-      this.offlineQuotesAvailable = [...offlineQuotes];
-    }
-    const quoteIndex = Math.floor(Math.random() * this.offlineQuotesAvailable.length);
-    const quote = this.offlineQuotesAvailable[quoteIndex];
-    this.offlineQuotesAvailable = [...this.offlineQuotesAvailable];
-    this.offlineQuotesAvailable.splice(quoteIndex, 1);
-    return quote;
-  }
-
-
+  
   render() {
     const { quote, quotePhase } = this.state;
+    const quoteAuthorWithoutTags = this.removeTags(quote.quoteAuthor);
+    const quoteTextWithoutTags = this.removeTags(quote.quoteText);
 
     return <div className="rqm grid-container">
       <div className="grid-x grid-padding align-center">
         <h1 className="cell text-center">Random Quote Machine</h1>
-        <div className={`${quotePhase} quote-container cell medium-8 large-6 callout`}>
+        <div className={`${quotePhase} quote-container cell medium-11 large-7 callout`}>
           <div className="grid-x grid-padding">
             <div
               className="quote-text cell"
-              dangerouslySetInnerHTML={this.createMarkup(quote.quoteText)}
+              dangerouslySetInnerHTML={{__html: quoteTextWithoutTags}}
             />
             <div
               className="quote-author cell text-right"
-              dangerouslySetInnerHTML={this.createMarkup(quote.quoteAuthor)}
+              dangerouslySetInnerHTML={{__html: quoteAuthorWithoutTags}}
             />
           </div>
         </div>
         <div className="cell button-group align-center">
-          <IconButton
-            className="tweet-quote"
-            faIcon={['fab', 'twitter']}
-            foundationClass="primary"
-            text="Tweet Quote"
-          />
           <IconButton
             className="new-quote"
             faIcon="redo"
             foundationClass="primary"
             text="New Quote"
             onClick={this.handleNewQuote}
+          />
+          <IconButton
+            className="tweet-quote"
+            faIcon={['fab', 'twitter']}
+            foundationClass="primary"
+            link={`${twitterApiUrl}${quoteTextWithoutTags}`}
+            target="new"
+            text="Tweet Quote"
           />
         </div>
       </div>

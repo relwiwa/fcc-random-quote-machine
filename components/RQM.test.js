@@ -4,8 +4,10 @@ import React from 'react';
 import offlineQuotes from '../data/offlineQuotes';
 import RQM from './RQM';
 
+import { twitterApiUrl } from '../data/applicationData';
+
 describe('<RQM>', () => {
-  
+  const regExpTags = /[<[a-zA-Z0-9]+>/;
   let wrapper;
 
   describe('when rendering initially', () => {
@@ -51,7 +53,6 @@ describe('<RQM>', () => {
     });
   });
   describe('when user clicks on .new-quote button', () => {
-    const regExpTags = /[<[a-zA-Z0-9]+>/;
     let onClickPromise;
     beforeEach(function() {
       wrapper = shallow(<RQM />);
@@ -90,6 +91,14 @@ describe('<RQM>', () => {
           expect(wrapper.find('.quote-container.quote-appear')).toHaveLength(1);
         });
       });
+    });
+  });
+  describe('when user clicks on .new-quote button', () => {
+    it('the tweet button should go to the twitter API', () => {
+      expect(wrapper.find('.tweet-quote').props().link).toEqual(expect.stringContaining(twitterApiUrl));
+    });
+    it('should have a link attribute with tags removed from it', () => {
+      expect(wrapper.find('.tweet-quote').props().link).toEqual(expect.not.stringMatching(regExpTags));
     });
   });
 });
