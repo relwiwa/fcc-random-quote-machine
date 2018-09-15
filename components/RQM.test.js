@@ -1,17 +1,19 @@
+import { mount, shallow } from 'enzyme';
 import React from 'react';
-import { shallow } from 'enzyme';
+import sinon from 'sinon';
 
 import offlineQuotes from '../data/offlineQuotes';
 import RQM from './RQM';
+import { notDeepEqual } from 'assert';
 
 describe('<RQM>', () => {
   
   let wrapper;
-  beforeEach(function() {
-    wrapper = shallow(<RQM />);
-  });
 
   describe('when rendering initially', () => {
+    beforeEach(function() {
+      wrapper = shallow(<RQM />);
+    });
     describe('concerning its child elements', () => {
       it('renders a .quote-container', () => {
         expect(wrapper.find('.quote-container')).toHaveLength(1);
@@ -37,10 +39,52 @@ describe('<RQM>', () => {
         expect(offlineQuotes).toContainEqual(expect.objectContaining(wrapper.state().quote));
       });
       it('sets quoteText from state into .quote-text', () => {
-        expect(wrapper.find('.quote-text').text()).toEqual(wrapper.state().quote.quoteText);
+        expect(wrapper.find('.quote-text').props().dangerouslySetInnerHTML.__html).toEqual(wrapper.state().quote.quoteText);
       });
       it('sets quoteAuthor from state into .quote-author', () => {
-        expect(wrapper.find('.quote-author').text()).toEqual(wrapper.state().quote.quoteAuthor);
+        expect(wrapper.find('.quote-author').props().dangerouslySetInnerHTML.__html).toEqual(wrapper.state().quote.quoteAuthor);
+      });
+    });
+  });
+  describe('when user clicks on .new-quote button', () => {
+    const regExpTags = /[<[a-zA-Z0-9]+>/;
+    let onClickPromise;
+    beforeEach(function() {
+      wrapper = shallow(<RQM />);
+      onClickPromise = wrapper.find('.new-quote').props().onClick();
+    });
+    describe('concerning replacing old with new quote from API', () => {
+      it('sets .quote-disappear on .quote-container', () => {
+        expect(wrapper.find('.quote-container.quote-disappear')).toHaveLength(1);
+      });
+      it('sets a new quote author from the api into state.quote.quoteAuthor', () => {
+        expect.assertions(1);
+        return onClickPromise.then(data => {
+          expect(wrapper.state().quote.quoteAuthor).toEqual(data[0].title);
+        });
+      });
+      it('sets a new quote text from the api into state.quote.quoteText', () => {
+        expect.assertions(1);
+        return onClickPromise.then(data => {
+          expect(wrapper.state().quote.quoteText).toEqual(data[0].content);
+        });
+      });
+      it('removes tags from quoteText before placing it inside .quote-text', () => {
+        expect.assertions(1);
+        return onClickPromise.then(data => {
+          expect(wrapper.find('.quote-text').props().dangerouslySetInnerHTML.__html).toEqual(expect.not.stringMatching(regExpTags));
+        });
+      });
+      it('removes tags from quoteAuthor before placing it inside .quote-author', () => {
+        expect.assertions(1);
+        return onClickPromise.then(data => {
+          expect(wrapper.find('.quote-author').props().dangerouslySetInnerHTML.__html).toEqual(expect.not.stringMatching(regExpTags));
+        });
+      });
+      it('sets .quote-appear on .quote-container after getting new quote', () => {
+        return onClickPromise.then(data => {
+          expect(wrapper.find('.quote-container.quote-appear')).toHaveLength(1);
+        });
       });
     });
   });

@@ -6,4 +6,33 @@
   .api-reference {
     margin-top: 35px;
   }
+  .quote-appear {
+    .quote-text, .quote-author {
+      animation: fade-in 2s;
+    }
+  }
+  .quote-disappear {
+    .quote-text, .quote-author {
+      animation: fade-out 2s;
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 100%;
+    }
+  }
+
+  @keyframes fade-out {
+    from {
+      opacity: 100%;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+
 }
