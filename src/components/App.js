@@ -1,38 +1,31 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './App.css';
 
 import QuoteContainer from './QuoteContainer';
 import Button from './Button';
 
-class App extends Component {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			quote: 'hello World',
-			author: 'Josue',
-			twitter: {
-				text: 'Twiter',
-				icon: 'icon'
-			},
-      newQuote: {
-        text: 'New Quote',
-        icon: 'icon'
-      }
-		};
-	}
-  render() {
-    return (
-      <div className="rqm grid-container">
-        <div className="grid-x grid-padding-x">
-          <h1 className="cell">Random Quote Machine</h1>
-        </div>
-        <QuoteContainer author={this.state.author} quote={this.state.quote} />
-        <Button text={this.state.newQuote.text} icon={this.state.newQuote.icon} className="twitter" />
-        <Button text={this.state.twitter.text} icon={this.state.twitter.icon} className="new-quote" />
+/*  Let's use a functional component for now according to the second phase of
+    "Thinking in React", where we don't have state yet, but only build a static
+    version of our app and put in props manually */
+const App = (props) =>  {
+  return (
+    <div className="rqm grid-container">
+      <div className="grid-x grid-padding-x">
+        <h1 className="cell">Random Quote Machine</h1>
       </div>
-    );
-  }
-}
+      <QuoteContainer author={"Josue"} quote={"Hello world"} />
+      <Button
+        text="New Quote"
+        icon="this should be the name of a font-awesome icon"
+        className="twitter"
+      />
+      <Button
+        text={"Tweet Quote"}
+        icon="this should be the name of a font-awesome icon"
+        className="new-quote"
+      />
+    </div>
+  );
+};
 
 export default App;
