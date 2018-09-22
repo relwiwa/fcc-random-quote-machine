@@ -3,5 +3,11 @@
 /* Include the CSS components we use from Foundation here */
 
 @include foundation-global-styles;
+@include foundation-typography;
 @include foundation-flex-classes;
 @include foundation-xy-grid-classes;
+@include foundation-button;
+@include foundation-button-group;
+@include foundation-title-bar;
+
+

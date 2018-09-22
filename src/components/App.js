@@ -10,26 +10,30 @@ class App extends Component {
 
 		this.state = {
 			quote: 'hello World',
+      quotes: ['Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum, excepturi.'],
 			author: 'Josue',
 			twitter: {
-				text: 'Twiter',
+				text: 'Twitter',
 				icon: 'icon'
 			},
       newQuote: {
         text: 'New Quote',
         icon: 'icon'
-      }
+      },
+      buttons: ['Twitter', 'New Quote']
 		};
 	}
   render() {
     return (
       <div className="rqm grid-container">
         <div className="grid-x grid-padding-x">
-          <h1 className="cell">Random Quote Machine</h1>
+          <h1 className="cell text-center">Random Quote Machine</h1>
         </div>
         <QuoteContainer author={this.state.author} quote={this.state.quote} />
-        <Button text={this.state.newQuote.text} icon={this.state.newQuote.icon} className="twitter" />
-        <Button text={this.state.twitter.text} icon={this.state.twitter.icon} className="new-quote" />
+        <div className="primary expanded button-group">
+          <Button text={this.state.newQuote.text} icon={this.state.newQuote.icon} className="twitter" />
+          <Button text={this.state.twitter.text} icon={this.state.twitter.icon} className="new-quote" />
+        </div>
       </div>
     );
   }
